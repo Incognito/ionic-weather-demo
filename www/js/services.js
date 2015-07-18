@@ -16,6 +16,9 @@ angular.module('starter.services', [])
                         }
                     })
                     .success(function(data, status, headers, config){
+                        if (data.cod && data.cod !== 200) { // Openweathermap doesn't return meaningful status codes
+                            reject()
+                        }
                         resolve(data)
                     })
                     .error(function(){
@@ -25,5 +28,26 @@ angular.module('starter.services', [])
         }
     };
 }])
-;
+.factory('WeatherTransformer', [function(){
+    return {
+        transformWeatherToForecast: function (weatherApiResponse){
+            var forecast = weatherApiResponse.list.map(function(value){
+                return {
+                    'min': value.temp.min,
+                    'max': value.temp.max,
+                    'main': value.weather[0].main,
+                    'description': value.weather[0].description
+                }
+            });
+            console.log(forecast);
 
+            return forecast;
+        },
+        transformWeatherToPressure: function (weatherApiResponse){
+            return weatherApiResponse.list.reduce(function(a, b){
+                return a.pressure + b.pressure;
+            }) / weatherApiResponse.list.length
+        }
+    }
+}])
+;
