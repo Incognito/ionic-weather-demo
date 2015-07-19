@@ -1,11 +1,17 @@
 angular.module('starter.controllers', [])
 
-.controller('SearchCtrl', function($scope, SearchService) {
+.controller('SearchCtrl', function($scope, WeatherClient, WeatherTransformer, SearchService) {
     $scope.city = 'Toronto';
     SearchService.publish($scope.city)
     $scope.publish = function (){
         SearchService.publish($scope.city)
-    }
+    };
+    SearchService.subscribe(function(city){
+        var forecast = WeatherClient.getWeeklyForecastByCity(city);
+        forecast.then(function resolve(message){
+            $scope.foundCity = message.city.name + ", " + message.city.country;
+        });
+    });
 })
 
 .controller('SevenDayCtrl', function($scope, WeatherClient, WeatherTransformer, SearchService) {
@@ -18,15 +24,6 @@ angular.module('starter.controllers', [])
         return new Date(offsetTimestamp);
     }
 
-    SearchService.subscribe(function(city){
-        var forecast = WeatherClient.getWeeklyForecastByCity(city);
-        forecast.then(function resolve(message){
-            $scope.forecast = WeatherTransformer.transformWeatherToForecast(message);
-        });
-    });
-})
-
-.controller('FancySevenDayCtrl', function($scope, WeatherClient, WeatherTransformer, SearchService) {
     SearchService.subscribe(function(city){
         var forecast = WeatherClient.getWeeklyForecastByCity(city);
         forecast.then(function resolve(message){

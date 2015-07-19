@@ -41,7 +41,6 @@ angular.module('starter.services', [])
                     'description': value.weather[0].description
                 }
             });
-            console.log(forecast);
 
             return forecast;
         },

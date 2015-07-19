@@ -54,7 +54,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       views: {
         'tab-fancy7day': {
           templateUrl: 'templates/tab-fancy7day.html',
-          controller: 'FancySevenDayCtrl'
+          controller: 'SevenDayCtrl'
         }
       }
     })
