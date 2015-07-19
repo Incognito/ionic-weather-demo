@@ -16,13 +16,13 @@ angular.module('starter.services', [])
                         }
                     })
                     .success(function(data, status, headers, config){
-                        if (data.cod && data.cod !== 200) { // Openweathermap doesn't return meaningful status codes
-                            reject()
+                        if (!data.cod && data.cod !== 200) { // Openweathermap doesn't return meaningful status codes
+                            reject('Bad response code: ' + data.cod)
                         }
                         resolve(data)
                     })
                     .error(function(){
-                        reject()
+                        reject('Bad request')
                     })
                 ;
             });
@@ -56,7 +56,6 @@ angular.module('starter.services', [])
     var subscribers = [];
     return {
         publish: function(state) {
-            console.log(state);
             presentState = state;
             subscribers.forEach(function(callback){
                 callback(presentState);
@@ -64,8 +63,7 @@ angular.module('starter.services', [])
         },
         subscribe: function(callback) {
             subscribers.push(callback);
-
-            return presentState;
+            callback(presentState);
         }
     };
 })
