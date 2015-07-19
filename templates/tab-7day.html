@@ -1,0 +1,18 @@
+<ion-view>
+  <ion-content class="padding">
+        <div class="list card">
+          <div ng-repeat="day in forecast track by $index">
+            <div class="item item-divider">{{ getDayByOffset($index) | date:'MMM dd'}}
+                <img ng-src="http://openweathermap.org/img/w/{{day.icon}}.png" />
+            </div>
+            <div class="item item-body">
+                <div>
+                {{day.max}} | {{day.min}}
+                <br/>
+                {{day.description}}
+                </div>
+            </div>
+          </div>
+        </div>
+  </ion-content>
+</ion-view>
