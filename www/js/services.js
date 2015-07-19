@@ -44,6 +44,19 @@ angular.module('starter.services', [])
 
             return forecast;
         },
+        transformWeatherToGraph: function (weather){
+            var forecast = weather.list.map(function(value, index){
+                    return {
+                        'label': index,
+                        'value': value.temp.max
+                    }
+            });
+
+            return [{
+                'key': 'Forecast',
+                'values': forecast
+            }];
+        },
         transformWeatherToPressure: function (weather){
             var sum = weather.list.reduce(function(a, b){
                 return a + b.pressure;
