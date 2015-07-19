@@ -32,11 +32,12 @@ angular.module('starter.services', [])
 .factory('WeatherTransformer', [function(){
     return {
         transformWeatherToForecast: function (weather){
-            var forecast = weather.list.map(function(value){
+            var forecast = weather.list.map(function(value, index){
                 return {
                     'min': value.temp.min,
                     'max': value.temp.max,
                     'main': value.weather[0].main,
+                    'icon': value.weather[0].icon,
                     'description': value.weather[0].description
                 }
             });

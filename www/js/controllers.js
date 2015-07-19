@@ -9,6 +9,15 @@ angular.module('starter.controllers', [])
 })
 
 .controller('SevenDayCtrl', function($scope, WeatherClient, WeatherTransformer, SearchService) {
+    var today = new Date();
+    var oneDay = 24*60*60*1000;
+
+    $scope.getDayByOffset = function(index){
+        var offsetTimestamp = +today + index * oneDay;
+
+        return new Date(offsetTimestamp);
+    }
+
     SearchService.subscribe(function(city){
         var forecast = WeatherClient.getWeeklyForecastByCity(city);
         forecast.then(function resolve(message){
