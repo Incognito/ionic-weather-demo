@@ -27,11 +27,17 @@
     <!--
       The nav bar that will be updated as we navigate between views.
     -->
-    <ion-header-bar class="bar-solid">
-      <div class="item-input-inset">
+    <ion-header-bar class="bar-solid" >
+      <div class="item-input-inset" ng-controller="SearchCtrl">
         <label class="item-input-wrapper">
           <i class="icon ion-ios-search placeholder-icon"></i>
-          <input type="search" placeholder="City">
+          <input 
+             type="search" 
+             placeholder="City" 
+             ng-value="city"
+             ng-model="city"
+             ng-change="publish()"
+          >
         </label>
       </div>
     </ion-header-bar>

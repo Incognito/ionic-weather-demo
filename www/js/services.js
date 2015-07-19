@@ -24,14 +24,15 @@ angular.module('starter.services', [])
                     .error(function(){
                         reject()
                     })
+                ;
             });
         }
     };
 }])
 .factory('WeatherTransformer', [function(){
     return {
-        transformWeatherToForecast: function (weatherApiResponse){
-            var forecast = weatherApiResponse.list.map(function(value){
+        transformWeatherToForecast: function (weather){
+            var forecast = weather.list.map(function(value){
                 return {
                     'min': value.temp.min,
                     'max': value.temp.max,
@@ -43,11 +44,29 @@ angular.module('starter.services', [])
 
             return forecast;
         },
-        transformWeatherToPressure: function (weatherApiResponse){
-            return weatherApiResponse.list.reduce(function(a, b){
+        transformWeatherToPressure: function (weather){
+            return weather.list.reduce(function(a, b){
                 return a.pressure + b.pressure;
-            }) / weatherApiResponse.list.length
+            }) / weather.list.length
         }
     }
 }])
+.service('SearchService', function() {
+    var presentState;
+    var subscribers = [];
+    return {
+        publish: function(state) {
+            console.log(state);
+            presentState = state;
+            subscribers.forEach(function(callback){
+                callback(presentState);
+            });
+        },
+        subscribe: function(callback) {
+            subscribers.push(callback);
+
+            return presentState;
+        }
+    };
+})
 ;
