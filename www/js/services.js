@@ -45,9 +45,11 @@ angular.module('starter.services', [])
             return forecast;
         },
         transformWeatherToPressure: function (weather){
-            return weather.list.reduce(function(a, b){
-                return a.pressure + b.pressure;
-            }) / weather.list.length
+            var sum = weather.list.reduce(function(a, b){
+                return a + b.pressure;
+            }, 0);
+
+            return sum / weather.list.length
         }
     }
 }])

@@ -2,6 +2,7 @@ angular.module('starter.controllers', [])
 
 .controller('SearchCtrl', function($scope, SearchService) {
     $scope.city = 'Toronto';
+    SearchService.publish($scope.city)
     $scope.publish = function (){
         SearchService.publish($scope.city)
     }
@@ -29,7 +30,9 @@ angular.module('starter.controllers', [])
     SearchService.subscribe(function(city){
         var forecast = WeatherClient.getWeeklyForecastByCity(city);
         forecast.then(function resolve(message){
-            $scope.pressure = WeatherTransformer.transformWeatherToPressure(message);
+            $scope.pressure = Math.round(
+                WeatherTransformer.transformWeatherToPressure(message)
+            );
         });
     });
 });
